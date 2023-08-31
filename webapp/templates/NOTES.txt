@@ -1,0 +1,7 @@
+# Following commands are applicable if running on minikube cluster
+1. Create Kubernetes secrets for database: 
+kubectl --namespace {{ .Values.namespace}} create secret generic webapp-secret --from-literal=DB-PASSWORD=YOUR-PASSWORD
+2. Expose application over port 80
+kubectl --namespace {{ .Values.namespace}} port-forward service/{{ .Values.frontend.appName }} 80:8080
+3. Application URL:
+http://localhost

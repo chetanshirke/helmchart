@@ -1,0 +1,56 @@
+# Global
+namespace: internal-tools
+
+# Postgrace
+postgres:
+  image:
+    repository: postgres
+    tag: 13.4
+  resources:
+    maxCpu: "1"
+    maxMemory: "1Gi"
+    minCpu: "0.5"
+    minMemory: "512Mi"
+  service:
+    port: 5432
+  env:
+    dbUser: webapp
+    dbDatabase: webapp-db
+
+# Frontend
+frontend:
+  service:
+    name: frontend
+    port: 8080
+  image:
+    repository: 3a59n5l3my/frontend
+    tag: 1.0.0
+  resources:
+    maxCpu: "2"
+    maxMemory: "1Gi"
+    minCpu: "1"
+    minMemory: "512Mi"
+  ingress:
+    enabled: false
+    host: blog.local
+    path: /
+  healthCheckPath: /healthz
+
+# Backend
+backend:
+  service:
+    name: backend
+    port: 3000
+  image:
+    repository: 3a59n5l3my/backend
+    tag: 1.0.0
+  resources:
+    maxCpu: "1"
+    maxMemory: "1Gi"
+    minCpu: "0.5"
+    minMemory: "512Mi"
+  env:  
+    DB_USER: webapp
+    DB_PASSWORD: webpass
+    DB_DATABASE: webapp-db
+  healthCheckPath: /healthz
